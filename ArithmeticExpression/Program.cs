@@ -4,57 +4,61 @@
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Enter operation string in format : {num1 operation num2} - separated by spaces.");
-            string? input = Console.ReadLine();
-            List<string> literals = input
-                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
-                .ToList(); 
-            try
+            string? input = Console.ReadLine(); //Input
+
+            //Checking for null input
+            if (string.IsNullOrWhiteSpace(input))
             {
-                if(literals.Count()<3)
-                    throw new InsufficientInputException();
-
-                if(!int.TryParse(literals[0],out int num1) || !int.TryParse(literals[2],out int num2))
-                    throw new InvalidInputException();
-
-                switch (literals[1])
-                {
-                    case "+" : 
-                        Console.WriteLine($"{num1} + {num2} = {num1+num2}");
-                        break;
-                    case "-":
-                        Console.WriteLine($"{num1} - {num2} = {num1-num2}");
-                        break;
-                    case "*":
-                        Console.WriteLine($"{num1} * {num2} = {num1*num2}");
-                        break;
-                    case "/":
-                        if(num2!=0)
-                            Console.WriteLine($"{num1} / {num2} = {num1/num2}");
-                        else
-                            throw new DivideByZeroException();
-                        break;
-                    default:
-                        throw new UnknownOperatorException();
-                }
+                Console.WriteLine("Error:InvalidExpression");
+                return;
             }
-            catch (Exception e)
+
+            //Spliting the string input into valid parts
+            string[] parts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            if (parts.Length != 3)  //Must equal to 3 tokens : num1 , operation, num2
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine("Error:InvalidExpression");
+                return;
+            }
+
+            if (!int.TryParse(parts[0], out int a) || !int.TryParse(parts[2], out int b))
+            {
+                Console.WriteLine("Error:InvalidNumber");
+                return;
+            }
+
+            string op = parts[1];
+
+            switch (op)
+            {
+                case "+":
+                    Console.WriteLine((a + b).ToString());
+                    break;
+
+                case "-":
+                    Console.WriteLine((a - b).ToString());
+                    break;
+
+                case "*":
+                    Console.WriteLine((a * b).ToString());
+                    break;
+
+                case "/":
+                    if (b == 0)
+                    {
+                        Console.WriteLine("Error:DivideByZero");
+                    }
+                    else
+                    {
+                        Console.WriteLine((a / b).ToString());
+                    }
+                    break;
+
+                default:
+                    Console.WriteLine("Error:UnknownOperator");
+                    break;
             }
         }
-    }
-
-    public class InvalidInputException : Exception
-    {
-        public override string Message => "Invalid Number Input.";
-    }
-    public class UnknownOperatorException : Exception
-    {
-        public override string Message => "Invalid Operator Input.";
-    }
-    public class InsufficientInputException : Exception
-    {
-        public override string Message => "Insufficient Input.";
     }
 }

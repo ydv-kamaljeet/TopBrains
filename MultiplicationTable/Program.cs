@@ -6,13 +6,13 @@
         {
             try
             {
-                Console.Write("Enter Number N : ");
-                if (!int.TryParse(Console.ReadLine(), out int n))
-                    throw new Exception();
+                Console.Write("Enter Number N : "); //input for number
+                if (!int.TryParse(Console.ReadLine(), out int n))   //making sure string is converted into int or not
+                    throw new Exception("Invalid input for N");
 
-                Console.Write("Enter Number Upto : ");
-                if (!int.TryParse(Console.ReadLine(), out int upto))
-                    throw new Exception();
+                Console.Write("Enter Number Upto : ");  //input for upto
+                if (!int.TryParse(Console.ReadLine(), out int upto)  || upto<=0)    //checking edge cases
+                    throw new Exception("Invalid input for Upto");
 
                 int[] multiplicationRow = Multiplication(n, upto);
 
@@ -23,12 +23,12 @@
             }
             catch (Exception ecp)
             {
-                Console.WriteLine($"Enter Valid Input.\nError Message : {ecp.Message}");
+                Console.WriteLine($"Error Message : {ecp.Message}");
             }
 
         }
 
-
+        //Helper static method to return the multiplication row
         public static int[] Multiplication(int n, int upto)
         {
             int[] multiplicationRow = new int[upto];
