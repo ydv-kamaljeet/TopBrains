@@ -4,10 +4,10 @@ using System;
 
 namespace BankAccountTests
 {
-    [TestFixture]   // 1️⃣ Required test attribute for class
+    [TestFixture]   //  Required test attribute for class
     public class UnitTest
     {
-        [Test]   // 2️⃣ Required test attribute
+        [Test]   //  Required test attribute
         public void Test_Deposit_ValidAmount()
         {
             Program account = new Program(1000m);
